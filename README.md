@@ -25,4 +25,6 @@ JSON Web Token atau lebih dikenal dengan JWT, merupakan sebuah token berbentuk J
 
 ## Rules & Policy
 
-Coming soon
+Coming soon.
+
+**Harap menunggu. Sayembara akan di mulai ketika peraturan dan kebijakan sudah di update.**
