@@ -3,7 +3,9 @@
 Sayembara untuk membuat JWT sederhana dengan menggunakan bahasa pemrograman PHP.
 
 Tujuan sayembara : membuat login sederhana dengan token
+
 Bahasa Pemrograman : PHP
+
 Nilai sayembara : Rp 200.000,-
 
 JSON Web Token atau lebih dikenal dengan JWT, merupakan sebuah token berbentuk JSON yang padat (ukurannya), informasi mandiri untuk ditransmisikan antar pihak yang terkait. Token tersebut ini dapat diverifikasi dan dipercaya karena sudah di-sign secara digital.
@@ -61,3 +63,7 @@ Kalau diterima, maka status bertuliskan “Marged” berwarna ungu.
 ### Pemenang dan bayaran
 
 Partisipan yang diterima merger request-nya pertama kali adalah pemenangnya dan akan di bayar dengan uang sebesar Rp 200.000,- . Pembayaran dapat menerima bank transfer, Cashtag jenius, GoPay, OVO, atau DANA.
+
+### Issue mengenai standard peraturan dan kebijakan?
+
+Peraturan ada yang membingungkan? Peraturan ada yang janggal? Jangan ragu untuk memberi saran ataupun bertanya pada halaman issue.
