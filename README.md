@@ -66,4 +66,4 @@ Partisipan yang diterima merger request-nya pertama kali adalah pemenangnya dan 
 
 ### Issue mengenai standard peraturan dan kebijakan?
 
-Peraturan ada yang membingungkan? Peraturan ada yang janggal? Jangan ragu untuk memberi saran ataupun bertanya pada halaman issue.
+Peraturan ada yang membingungkan? Peraturan ada yang janggal? Jangan ragu untuk memberi saran ataupun bertanya pada [halaman issue](https://github.com/DitaAjiPratama/sayembara-jwt-php-sederhana/issues).
