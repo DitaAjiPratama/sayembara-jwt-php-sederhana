@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>Papa JWT</title>
+
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"/>
+    <style>
+        body {
+            padding-top: 5rem;
+        }
+
+        .starter-template {
+            padding: 3rem 1.5rem;
+        }
+
+        #logout {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">PAPA JWT</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" id='home'>Home</a>
+            <a class="nav-item nav-link" id='logout'>Logout</a>
+            <a class="nav-item nav-link" id='login'>Login</a>
+            <a class="nav-item nav-link" id="signUp">Sign Up</a>
+        </div>
+    </div>
+</nav>
+<main role="main" class="container starter-template">
+    <div class="row">
+        <div class="col">
+
+            <div id="response"><!-- error/success messages will appear here --></div>
+
+            <div id="content"><!-- main content will appear here --></div>
+        </div>
+    </div>
+
+</main>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        //show sign up form
+        $(document).on('click', '#signUp', function () {
+            var signUpHtml = `<h2>Sign Up</h2>
+            <form id='sign_up_form'>
+                <div class="form-group">
+                    <label for="firstname">Fullname</label>
+                    <input type="text" class="form-control" name="fullname" id="fullname" required />
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Username</label>
+                    <input type="text" class="form-control" name="username" id="username" required />
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Phone Number</label>
+                    <input type="text" class="form-control" name="phone" id="phone" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" required />
+                </div>
+                <button type='submit' class='btn btn-primary'>Sign Up</button>
+            </form>`;
+            $('#content').html(signUpHtml);
+            clearMessage();
+        });
+
+        // Submit data user form to API
+        $(document).on('submit', '#sign_up_form', function () {
+            //get sign up form
+            var sign_up_form = $(this);
+
+            //get data from field
+            var fullname = $('#fullname').val();
+            var username = $('#username').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            //convert data to JSON
+            const data = JSON.stringify({
+                "fullname" : fullname,
+                "username": username,
+                "phone": phone,
+                "email": email,
+                "password": password
+            })
+
+            //submit data user to api
+            $.ajax({
+                url: "api/register.php",
+                type: "POST",
+                contentType: 'application/json',
+                data: data,
+                success: function () {
+                    //if response is a success, show success message
+                    $('#response').html("<div class='alert alert-success'>Sign up successfully</div>");
+                    //clear form after success sign up
+                    sign_up_form.find('input').val('');
+                },
+                error: function () {
+                    // if something went wrong, show failed message
+                    $('#response').html("<div class='alert alert-danger'>Unable to sign up. Please try again later.</div>");
+                }
+            });
+            return false;
+        });
+
+        //remove any messages
+        function clearMessage() {
+            $('#response').html('');
+        }
+
+        //show login form
+        $(document).on('click', '#login', function () {
+            showLoginPage();
+        });
+
+        function showLoginPage() {
+            // login page html
+            const loginHtml = `<h2>Login</h2>
+                <form id='login_form'>
+                    <div class='form-group'>
+                        <label for='email'>Email address</label>
+                        <input type='email' class='form-control' id='email' name='email' placeholder='Enter email'>
+                    </div>
+                    <div class='form-group'>
+                        <label for='password'>Password</label>
+                        <input type='password' class='form-control' id='password' name='password' placeholder='Password'>
+                    </div>
+                    <button type='submit' class='btn btn-primary'>Login</button>
+                </form>`;
+            $('#content').html(loginHtml);
+            clearMessage();
+            showLoggedOutMenu();
+        }
+
+        // function to set cookie
+        function setCookie(cname, cvalue, exp) {
+            let expires = "expires=" + exp;
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        //if the user is logged out
+        function showLoggedOutMenu() {
+            // show login and sign up from navbar & hide logout button
+            $("#login, #signUp").show();
+            $("#logout").hide();
+        }
+
+        //Authenticate user login via API
+        $(document).on('submit', '#login_form', function () {
+            // get form data
+            let login_form = $(this);
+
+            //get email password from input
+            let email = $('#email').val();
+            let password = $('#password').val();
+
+            //convert data to JSON
+            const dataUser = JSON.stringify({
+                "email": email,
+                "password": password
+            })
+
+            //http request to api
+            $.ajax({
+                url: "api/authentication.php",
+                type: "POST",
+                contentType: 'application/json',
+                data: dataUser,
+                success: function (res) {
+                    //save token to cookie
+                    setCookie("token", res.token, res.expireAt);
+
+                    //show home page and show message was a successful login
+                    showHomePage();
+                    $('#response').html("<div class='alert alert-success>"+res.message+"</div>");
+                },
+                error: function (res) {
+                    //if error, show failed message
+                    $('#response').html("<div class='alert alert-danger'>"+res.responseJSON.message+"</div>");
+
+                    //clear login form
+                    login_form.find('input').val('');
+                }
+            });
+            return false;
+        });
+
+        // show home page
+        $(document).on('click', '#home', function () {
+            showHomePage();
+            clearMessage();
+        });
+
+        function showHomePage() {
+            //get token and email from cookie
+            let token = getCookie('token');
+            let email = getCookie('email');
+
+            //validate token
+            $.ajax({
+                url: "api/token_validate.php",
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify({token: token, email: email}),
+                success: function (res) {
+                    const welcomeCardhtml = `<div class="card">
+                    <div class="card-header">Welcome to the jungle `+res.data.fullname+`</div>
+                        <div class="card-body">
+                        <h5 class="card-title">You have been successfully logged in</h5>
+                        <div>
+                            <small class="text-muted">Your Name: </small>
+                            <h6 class="my-0">`+res.data.fullname+`</h6>
+                        </div>
+                        <div>
+                            <small class="text-muted">Your Email: </small>
+                            <h6 class="my-0">`+res.data.email+`</h6>
+                        </div>
+                        <div>
+                            <small class="text-muted">Your Phone Number: </small>
+                            <h6 class="my-0">`+res.data.phone+`</h6>
+                        </div>
+                    </div>
+                </div>`;
+                    $('#content').html(welcomeCardhtml);
+                    hideLoginShowLogout();
+                },
+                error: function () {
+                    //if error or auth not granted, show failed message
+                    showLoginPage();
+                    $('#response').html("<div class='alert alert-danger'>Please login to access this page.</div>");
+                }
+            });
+        }
+
+        //get cookie
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        //hide login and sign up button, then show logout button
+        function hideLoginShowLogout() {
+            $("#login, #signUp").hide();
+            $("#logout").show();
+        }
+
+        //logout
+        $(document).on('click', '#logout', function(){
+            // remove token from cookie
+            setCookie("token", "", 1);
+            showLoginPage();
+            $('#response').html("<div class='alert alert-success'>You have been logged out successfully</div>");
+        });
+    });
+</script>
+</body>
+</html>
