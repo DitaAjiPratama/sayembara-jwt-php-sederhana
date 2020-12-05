@@ -14,6 +14,7 @@ and mysql version 5.7.26
 ## Installation
 - Clone this project
 - Copy to your htdocs folder
+- run `composer install` from your terminal
 - Setup your config database on class database.php
 - Create table on your databse with this query
 ```sql
