@@ -1,0 +1,10 @@
+{
+    "name": "xaxxis/papa-jwt",
+    "description": "Php sample implement basic jwt",
+    "version": "0.0.1",
+    "license": ["MIT"],
+    "require": {
+        "ext-json": "*",
+        "web-token/jwt-framework": "^2.2"
+    }
+}
